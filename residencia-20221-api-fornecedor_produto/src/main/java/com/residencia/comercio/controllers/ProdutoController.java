@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.residencia.comercio.dtos.ProdutoDTO;
 import com.residencia.comercio.entities.Produto;
 import com.residencia.comercio.services.ProdutoService;
 
@@ -64,7 +65,7 @@ public class ProdutoController {
 			@RequestParam @NotBlank(message = "O id deve ser preenchido.") Integer id) {
 		return new ResponseEntity<>(null, HttpStatus.CONTINUE);
 	}
-	
+
 	@Operation(summary = "Inserir um produto na Database", description = "No corpo da requisição passe as informações necessárias para inserir um produto", responses = {
 			@ApiResponse(responseCode = "200", description = "Post realizado com sucesso."),
 			@ApiResponse(responseCode = "400", description = "Erro ao realizar o Post.") })
@@ -74,11 +75,14 @@ public class ProdutoController {
 		return new ResponseEntity<>(produtoService.saveProduto(produto), HttpStatus.CREATED);
 	}
 
+	@PostMapping("/dto")
+	public ResponseEntity<ProdutoDTO> saveProdutoDTO(@RequestBody ProdutoDTO produtoDTO) {
+		return new ResponseEntity<>(produtoService.saveProdutoDTO(produtoDTO), HttpStatus.CREATED);
+	}
 
 	@Operation(summary = "Atualiza um produto na Database", description = " No corpo da requisição passe as informações necessárias para atualizar um produto", responses = {
 			@ApiResponse(responseCode = "200", description = "Atualização realizado com sucesso."),
-			@ApiResponse(responseCode = "400", description = "Erro ao atualizar um produto.")
-	})
+			@ApiResponse(responseCode = "400", description = "Erro ao atualizar um produto.") })
 	@PutMapping
 	public ResponseEntity<Produto> updateProduto(@RequestBody Produto produto) {
 		Produto produtoUpdate = produtoService.updateProduto(produto);

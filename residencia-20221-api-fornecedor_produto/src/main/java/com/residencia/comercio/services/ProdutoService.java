@@ -11,11 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.residencia.comercio.dtos.CategoriaDTO;
 import com.residencia.comercio.dtos.ProdutoDTO;
+import com.residencia.comercio.entities.Categoria;
 import com.residencia.comercio.entities.Produto;
 import com.residencia.comercio.repositories.CategoriaRepository;
 import com.residencia.comercio.repositories.FornecedorRepository;
 import com.residencia.comercio.repositories.ProdutoRepository;
+
 
 @Service
 public class ProdutoService {
@@ -47,12 +50,26 @@ public class ProdutoService {
 		return produtoRepository.save(produto);
 
 	}
+	
+	public ProdutoDTO saveProdutoDTO(ProdutoDTO produtoDTO) {
+
+        Produto produto = new Produto();
+        produto=produtoDTOtoEntity(produtoDTO);
+        //categoria.setIdCategoria(categoriaDTO.getIdCategoria());
+        produtoRepository.save(produto);
+
+        //Categoria novoCategoria = categoriaRepository.save(categoria);
+
+        return EntityProdutoToDTO(produto);
+    }
 
 	public Produto updateProduto(Produto produto) {
+		
 		return produtoRepository.save(produto);
 	}
 
 	public void deleteProdutoById(Integer id) {
+		 Produto produto = produtoRepository.findById(id).get();
 		produtoRepository.deleteById(id);
 	}
 

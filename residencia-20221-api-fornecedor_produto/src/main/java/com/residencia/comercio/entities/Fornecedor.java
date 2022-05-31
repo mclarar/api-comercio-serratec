@@ -10,11 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.br.CNPJ;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -28,7 +28,7 @@ public class Fornecedor {
 
 	@Column(name = "cnpj")
 	 @NotEmpty(message = "O número do CNPJ não pode ficar em branco.")
-	 @Digits(message="O CNPJ deve conter 14 números.", fraction = 0, integer = 14)
+	 @CNPJ
 	private String cnpj;
 
 	@Column(name = "tipo")

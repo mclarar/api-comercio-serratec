@@ -24,7 +24,7 @@ public class Categoria {
 	private Integer idCategoria;
 
 	@Column(name = "nome_categoria")
-	@NotBlank(message = "O nome da categoria não pode ficar em branco.")
+//	@NotBlank(message = "O nome da categoria não pode ficar em branco.")
 	private String nomeCategoria;
 
 	@Column(name = "imagem")

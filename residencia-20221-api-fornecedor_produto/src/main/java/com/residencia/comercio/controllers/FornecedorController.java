@@ -2,6 +2,8 @@ package com.residencia.comercio.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +42,7 @@ public class FornecedorController {
 	@Autowired
 	FornecedorService fornecedorService;
 
-	@Operation(summary = "Resgata a lista de fornecedores", description = "resgata a lista de fornecedores", responses = {
+	@Operation(summary = "Resgata a lista de fornecedores", description = "Resgata a lista de fornecedores", responses = {
 			@ApiResponse(responseCode = "200", description = "Get realizado com sucesso."),
 			@ApiResponse(responseCode = "400", description = "Erro ao realizar o Get.")
 	})
@@ -83,15 +85,13 @@ public class FornecedorController {
 	}
 
 	@Operation(summary = "Inserir um fornecedor na Database", description = "No corpo da requisição passe as informações necessárias para inserir um fornecedor", responses = {
-			@ApiResponse(responseCode = "200", description = "Post realizado com sucesso."),
-			@ApiResponse(responseCode = "400", description = "Erro ao realizar o Post.")
-	})
-	@PostMapping
-	public ResponseEntity<Fornecedor> saveFornecedor(@RequestParam String cnpj) {
-		Fornecedor fornecedor = new Fornecedor();
-		Fornecedor novoFornecedor = fornecedorService.saveFornecedor(fornecedor);
-		return new ResponseEntity<>(novoFornecedor, HttpStatus.CREATED);
-	}
+            @ApiResponse(responseCode = "200", description = "Post realizado com sucesso."),
+            @ApiResponse(responseCode = "400", description = "Erro ao realizar o Post.")
+    })
+    @PostMapping
+    public ResponseEntity<Fornecedor> saveFornecedor(@Valid @RequestBody Fornecedor fornecedor) {
+        return new ResponseEntity<>(fornecedorService.saveFornecedor(fornecedor), HttpStatus.CREATED);
+    }
 
 	@PostMapping("/completo")
 	public ResponseEntity<Fornecedor> saveFornecedorCompleto(@RequestBody Fornecedor fornecedor) {
@@ -104,6 +104,11 @@ public class FornecedorController {
 		FornecedorDTO novoFornecedorDTO = fornecedorService.saveFornecedorDTO(fornecedorDTO);
 		return new ResponseEntity<>(novoFornecedorDTO, HttpStatus.CREATED);
 	}
+	
+	@PostMapping("/cnpj/{cnpj}")
+    public ResponseEntity<FornecedorDTO> saveFornecedorCnpj(@PathVariable String cnpj) {
+        return new ResponseEntity<>(fornecedorService.saveFornecedorByCnpj(cnpj), HttpStatus.CREATED);
+    }
 	
 
 	@Operation(summary = "Atualiza um fornecedor na Database", description = " No corpo da requisição passe as informações necessárias para atualizar um fornecedor", responses = {

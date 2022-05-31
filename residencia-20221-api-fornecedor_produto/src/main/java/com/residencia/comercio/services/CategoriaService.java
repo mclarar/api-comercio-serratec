@@ -50,13 +50,15 @@ public class CategoriaService {
 
 	public CategoriaDTO saveCategoriaDTO(CategoriaDTO categoriaDTO) {
 
-		Categoria categoria = new Categoria();
+        Categoria categoria = new Categoria();
+        categoria=convertDTOToEntidade(categoriaDTO);
+        //categoria.setIdCategoria(categoriaDTO.getIdCategoria());
+        categoriaRepository.save(categoria);
 
-		categoria.setIdCategoria(categoriaDTO.getIdCategoria());
-		Categoria novoCategoria = categoriaRepository.save(categoria);
+        //Categoria novoCategoria = categoriaRepository.save(categoria);
 
-		return converterEntidadeParaDto(novoCategoria);
-	}
+        return converterEntidadeParaDto(categoria);
+    }
 
 	public Categoria updateCategoria(Categoria categoria) {
 		return categoriaRepository.save(categoria);
@@ -102,6 +104,7 @@ public class CategoriaService {
 		categoriaBD.setNomeImagem(categoriaBD.getIdCategoria() + "_" + file.getOriginalFilename());
 		Categoria categoriaAtualizada = categoriaRepository.save(categoriaBD);
 
+//		Chamando o método que fará a cópia do arquivo para a pasta definida
 		try {
             arquivoService.criarArquivo(categoriaBD.getIdCategoria() +"_"+file.getOriginalFilename(),file);
         } catch (Exception e) {

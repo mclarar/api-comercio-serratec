@@ -1,5 +1,7 @@
 package com.residencia.comercio.services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,7 @@ public class FornecedorService {
 	}
 
 	public Fornecedor saveFornecedor(Fornecedor fornecedor) {
+		
 		return fornecedorRepository.save(fornecedor);
 	}
 
@@ -54,6 +57,36 @@ public class FornecedorService {
 
 		return converterEntidadeParaDto(novoFornecedor);
 	}
+	
+	public FornecedorDTO saveFornecedorByCnpj(String cnpj) {
+        return converterEntidadeParaDto(fornecedorRepository.save(setEmpresaDTOToFornecedor(consultarDadosPorCnpj(cnpj))));
+    }
+
+    private Fornecedor setEmpresaDTOToFornecedor(CadastroEmpresaReceitaDTO cadastroEmpresaReceitaDTO) {
+        Fornecedor fornecedor = new Fornecedor();
+
+        fornecedor.setCnpj(cadastroEmpresaReceitaDTO.getCnpj());
+        fornecedor.setTipo(cadastroEmpresaReceitaDTO.getTipo());
+        fornecedor.setRazaoSocial(cadastroEmpresaReceitaDTO.getNome());
+        fornecedor.setTelefone(cadastroEmpresaReceitaDTO.getTelefone());
+        fornecedor.setEmail(cadastroEmpresaReceitaDTO.getEmail());
+        fornecedor.setNomeFantasia(cadastroEmpresaReceitaDTO.getFantasia());
+        fornecedor.setStatusSituacao(cadastroEmpresaReceitaDTO.getSituacao());
+        fornecedor.setLogradouro(cadastroEmpresaReceitaDTO.getLogradouro());
+        fornecedor.setBairro(cadastroEmpresaReceitaDTO.getBairro());
+        fornecedor.setComplemento(cadastroEmpresaReceitaDTO.getComplemento());
+        fornecedor.setCep(cadastroEmpresaReceitaDTO.getCep());
+        fornecedor.setMunicipio(cadastroEmpresaReceitaDTO.getMunicipio());
+        fornecedor.setUf(cadastroEmpresaReceitaDTO.getUf());
+        try {
+            fornecedor.setDataAbertura(new SimpleDateFormat("dd/MM/yyyy").parse(cadastroEmpresaReceitaDTO.getAbertura()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        fornecedor.setNumero(Integer.parseInt(cadastroEmpresaReceitaDTO.getNumero()));
+
+        return fornecedor;
+    }
 
 	public Fornecedor updateFornecedor(Fornecedor fornecedor) {
 		return fornecedorRepository.save(fornecedor);
@@ -84,6 +117,8 @@ public class FornecedorService {
 		fornecedor.setStatusSituacao(fornecedorDTO.getStatusSituacao());
 		fornecedor.setTipo(fornecedorDTO.getTipo());
 		fornecedor.setTelefone(fornecedorDTO.getTelefone());
+		fornecedor.setUf(fornecedorDTO.getUf());
+		fornecedor.setNumero(fornecedorDTO.getNumero());
 
 		ProdutoService produtoServiceNovo = new ProdutoService();
 		List<Produto> lista = produtoServiceNovo.produtoDTOtoEntityList(fornecedorDTO.getProdutoDTOList());
@@ -108,6 +143,8 @@ public class FornecedorService {
 		fornecedorDTO.setStatusSituacao(fornecedor.getStatusSituacao());
 		fornecedorDTO.setTipo(fornecedor.getTipo());
 		fornecedorDTO.setTelefone(fornecedor.getTelefone());
+		fornecedorDTO.setNumero(fornecedor.getNumero());
+		fornecedorDTO.setUf(fornecedor.getUf());
 		// fornecedorDTO.setProdutoList(fornecedor.getProdutoDTOList());
 
 		return fornecedorDTO;

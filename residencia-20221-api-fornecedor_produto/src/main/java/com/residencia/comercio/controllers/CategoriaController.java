@@ -37,7 +37,7 @@ public class CategoriaController {
 	CategoriaService categoriaService;
 	
 	
-	@Operation(summary = "resgata a lista de categorias", description = "resgata a lista de categorias", responses = {
+	@Operation(summary = "Resgata a lista de categorias", description = "Resgata a lista de categorias", responses = {
 			@ApiResponse(responseCode = "200", description = "Get realizado com sucesso."),
 			@ApiResponse(responseCode = "400", description = "Erro ao realizar o Get.") })
 	@GetMapping
@@ -52,7 +52,7 @@ public class CategoriaController {
 		return new ResponseEntity<>(categoriaDTO, HttpStatus.OK);
 	}
 
-	@Operation(summary = "resgata a categoria pelo seu ID", description = "Informe o ID da categoria para obter as informações sobre ela", responses = {
+	@Operation(summary = "Resgata a categoria pelo seu ID", description = "Informe o ID da categoria para obter as informações sobre ela", responses = {
 			@ApiResponse(responseCode = "200", description = "Get realizado com sucesso."),
 			@ApiResponse(responseCode = "400", description = "Erro ao realizar o Get.") })
 	@GetMapping("/{id}")
@@ -64,7 +64,7 @@ public class CategoriaController {
 			return new ResponseEntity<>(categoria, HttpStatus.OK);
 	}
 
-	@Operation(summary = "Deleta uma categoria da Database", description = "Informe o ID de uma categoria que deseja deletar", responses = {
+	@Operation(summary = "Insere uma categoria da Database", description = "Informe o ID de uma categoria que deseja inserir", responses = {
 			@ApiResponse(responseCode = "200", description = "Exclusão realizado com sucesso."),
 			@ApiResponse(responseCode = "400", description = "Erro ao deletar uma categoria.")
 	})
