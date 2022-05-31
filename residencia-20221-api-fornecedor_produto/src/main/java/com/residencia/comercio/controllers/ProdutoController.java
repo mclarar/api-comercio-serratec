@@ -102,7 +102,7 @@ public class ProdutoController {
 			@ApiResponse(responseCode = "200", description = "Exclusão realizado com sucesso."),
 			@ApiResponse(responseCode = "400", description = "Erro ao deletar um produto.") })
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteProdutoById(Integer id) {
+	public ResponseEntity<String> deleteProdutoById(@PathVariable Integer id) {
 		produtoService.deleteProdutoById(id);
 		return new ResponseEntity<>("", HttpStatus.OK);
 	}

@@ -69,7 +69,7 @@ public class ProdutoService {
 	}
 
 	public void deleteProdutoById(Integer id) {
-		 Produto produto = produtoRepository.findById(id).get();
+//		 Produto produto = produtoRepository.findById(id).get();
 		produtoRepository.deleteById(id);
 	}
 
